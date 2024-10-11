@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 public class ChangeWorldEvent implements Listener {
 
     LoaderSaver ls;
-
+//TODO get la loc autrement parce que c'est celle du nouveau monde pas de l'ancien donc ça marche pas .............
     @EventHandler
     public void onPlayerChangedWorldEvent(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
