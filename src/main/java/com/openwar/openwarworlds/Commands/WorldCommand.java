@@ -77,6 +77,7 @@ public class WorldCommand implements CommandExecutor {
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("\u00A78» \u00A77Teleportation in \u00A7f" + countdown + " \u00A77seconds... \u00A78«"));
                             countdown--;
                         } else {
+                            waitingPlayers.remove(player);
                             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp "+player.getName()+" "+ world);
                             switch (world) {
                                 case "world":
@@ -91,7 +92,6 @@ public class WorldCommand implements CommandExecutor {
                                     break;
                             }
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("\u00A78» \u00A7fTeleported to §a" + world+" §8«"));
-                            waitingPlayers.remove(player);
                             this.cancel();
                         }
                     } else {
