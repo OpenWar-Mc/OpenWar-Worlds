@@ -1,20 +1,32 @@
 package com.openwar.openwarworlds;
 
+import com.openwar.openwarfaction.commands.FactionTabCompletion;
 import com.openwar.openwarfaction.factions.FactionManager;
 import com.openwar.openwarfaction.handler.MenuHandler;
 import com.openwar.openwarlevels.level.PlayerDataManager;
+import com.openwar.openwarworlds.Commands.CommandEvent;
+import com.openwar.openwarworlds.Commands.RtpCommand;
+import com.openwar.openwarworlds.Commands.TabComplete;
 import com.openwar.openwarworlds.Commands.WorldCommand;
 import com.openwar.openwarworlds.GUI.GUIbuild;
+import com.openwar.openwarworlds.Handler.ChangeWorldEvent;
 import com.openwar.openwarworlds.Handler.GUIHandler;
+import com.openwar.openwarworlds.utils.LoaderSaver;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Main extends JavaPlugin {
 
     PlayerDataManager pl;
     FactionManager fm;
     GUIbuild gui;
+    LoaderSaver ls;
+    public List<Player> waitingPlayers = new ArrayList<>();
 
     private boolean setupDepend() {
         RegisteredServiceProvider<PlayerDataManager> levelProvider = getServer().getServicesManager().getRegistration(PlayerDataManager.class);
@@ -31,14 +43,22 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         if (!setupDepend()) { return;}
         gui = new GUIbuild();
-        getServer().getPluginManager().registerEvents(new GUIHandler(pl, this, gui), this);
-        getCommand("w").setExecutor(new WorldCommand(pl, gui));
+        ls = new LoaderSaver(this);
+        ls.loadData();
+        getServer().getPluginManager().registerEvents(new ChangeWorldEvent(ls), this);
+        getServer().getPluginManager().registerEvents(new GUIHandler(this, gui), this);
+        getCommand("w").setExecutor(new WorldCommand(pl, gui, ls, this));
+        getServer().getPluginManager().registerEvents(new CommandEvent(pl, this), this);
+        getCommand("rtp").setExecutor(new RtpCommand(this));
+        getCommand("w").setTabCompleter(new TabComplete());
+        getCommand("rtp").setTabCompleter(new TabComplete());
 
 
     }
+    public List getWaitingPlayers() {return waitingPlayers;}
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        ls.saveData();
     }
 }

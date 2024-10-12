@@ -7,23 +7,25 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class ChangeWorldEvent implements Listener {
 
     LoaderSaver ls;
-//TODO get la loc autrement parce que c'est celle du nouveau monde pas de l'ancien donc ça marche pas .............
+    public ChangeWorldEvent(LoaderSaver ls) {
+        this.ls = ls;
+    }
     @EventHandler
-    public void onPlayerChangedWorldEvent(PlayerChangedWorldEvent event) {
+    public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
-        World world = event.getFrom();
-        switch (world.getName()) {
+        Location loc = event.getFrom();
+        switch (loc.getWorld().getName()) {
             case "faction":
-                ls.setFactionLocation(player, player.getLocation());
+                ls.setFactionLocation(player, loc);
                 break;
             case "world":
-                ls.setWorldLocation(player, player.getLocation());
+                ls.setWorldLocation(player, loc);
                 break;
         }
     }
-
 }

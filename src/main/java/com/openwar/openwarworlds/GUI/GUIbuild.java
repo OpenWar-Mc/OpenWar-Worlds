@@ -19,11 +19,11 @@ public class GUIbuild {
         Inventory menu = Bukkit.createInventory(null, 27, "     §k§l!!!§r §3§lWorld Select§8 §r§8§k§l!!!§r");
         addBorders(menu, 3);
 
-        menu.setItem(11, createCustomItem(Material.GRASS, "§7» §b§lWorld Faction§7«", Arrays.asList("§8▶ §7Do §c/w faction §7to tp at last pos", "§8▶ §7Do §c/rtp faction §7to §fRTP")));
-        menu.setItem(12, createCustomItem(Material.DIAMOND_ORE, "§7» §a§lWorld Ressource§7«", Arrays.asList("§8▶ §7Do §c/w ressource §7to tp at last pos", "§8▶ §7Do §c/rtp ressource §7to §fRTP")));
+        menu.setItem(11, createCustomItem(Material.GRASS, "§7» §b§lWorld Faction §7«", Arrays.asList("§8▶ §7Do §c/w faction §7to tp at last pos", "§8▶ §7Do §c/rtp faction §7to §fRTP")));
+        menu.setItem(12, createCustomItem(Material.DIAMOND_ORE, "§7» §a§lWorld Ressource §7«", Arrays.asList("§8▶ §7Do §c/w ressource §7to tp at last pos", "§8▶ §7Do §c/rtp ressource §7to §fRTP")));
 
-        menu.setItem(14, createCustomItem(Material.NETHERRACK, "§7» §5§lWorld Nether§7«", Arrays.asList("§8▶ §7Avaible Level: §c10 §f!")));
-        menu.setItem(15, createCustomItem(Material.matchMaterial("hbm:waste_dirt"), "§7» §c§lWorld Warzone§7«", Arrays.asList("§8▶ §7Avaible Level: §c3 §f!")));
+        menu.setItem(14, createCustomItem(Material.NETHERRACK, "§7» §5§lWorld Nether §7«", Arrays.asList("§8▶ §7Avaible Level: §c10 §f!")));
+        menu.setItem(15, createCustomItem(Material.DIRT, "§7» §c§lWorld Warzone §7«", Arrays.asList("§8▶ §7Avaible Level: §c3 §f!")));
         player.openInventory(menu);
     }
 

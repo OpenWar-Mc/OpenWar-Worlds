@@ -1,3 +1,14 @@
 name: OpenWar-Worlds
 version: '${project.version}'
 main: com.openwar.openwarworlds.Main
+depend: [OpenWar-Core]
+commands:
+  rtp:
+    description: "Teleport player randomly to faction or world"
+    usage: "/rtp faction|world"
+    aliases: [rtp]
+
+  w:
+    description: "Teleport player to faction, world, or nether"
+    usage: "/w faction|world|nether"
+    aliases: [world]
