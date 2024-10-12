@@ -37,14 +37,18 @@ public class LoaderSaver {
             for (Map.Entry<UUID, Location> entry : ressource.entrySet()) {
                 UUID playerUUID = entry.getKey();
                 Location loc = entry.getValue();
-                writer.write(playerUUID + "," + loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + ",ressource");
-                writer.newLine();
+                if (playerUUID != null && loc != null) {
+                    writer.write(playerUUID + "," + loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + ",ressource");
+                    writer.newLine();
+                }
             }
             for (Map.Entry<UUID, Location> entry : faction.entrySet()) {
                 UUID playerUUID = entry.getKey();
                 Location loc = entry.getValue();
-                writer.write(playerUUID + "," + loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + ",faction");
-                writer.newLine();
+                if (playerUUID != null && loc != null) {
+                    writer.write(playerUUID + "," + loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + ",faction");
+                    writer.newLine();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

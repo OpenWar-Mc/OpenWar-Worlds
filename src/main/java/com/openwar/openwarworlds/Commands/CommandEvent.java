@@ -6,6 +6,7 @@ import com.openwar.openwarworlds.Main;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
@@ -22,14 +23,14 @@ public class CommandEvent implements Listener {
     }
 
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
         String command = event.getMessage().toLowerCase();
         PlayerLevel playerLevel = pl.loadPlayerData(player.getUniqueId(), null);
         int level = playerLevel.getLevel();
         if (!player.getWorld().getName().equals("faction")) {
-            if (command.equals("f claim")){
+            if (command.equals("/f claim")){
                 player.sendMessage("§8» §bFaction §8« §cYou need to be on §fFaction World !");
                 event.setCancelled(true);
             }
