@@ -3,6 +3,7 @@ package com.openwar.openwarworlds.Commands;
 import com.openwar.openwarlevels.level.PlayerDataManager;
 import com.openwar.openwarlevels.level.PlayerLevel;
 import com.openwar.openwarworlds.Main;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,6 +23,13 @@ public class CommandEvent implements Listener {
         waitingPlayers = main.getWaitingPlayers();
     }
 
+    private boolean isWithinXZRange(Location loc) {
+        double x = loc.getX();
+        double z = loc.getZ();
+
+        return x >= -200 && x <= 200 &&
+                z >= -200 && z <= 200;
+    }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
@@ -29,9 +37,15 @@ public class CommandEvent implements Listener {
         String command = event.getMessage().toLowerCase();
         PlayerLevel playerLevel = pl.loadPlayerData(player.getUniqueId(), null);
         int level = playerLevel.getLevel();
+        Location loc = player.getLocation();
         if (!player.getWorld().getName().equals("faction")) {
             if (command.equals("/f claim")){
                 player.sendMessage("§8» §bFaction §8« §cYou need to be on §fFaction World !");
+                event.setCancelled(true);
+            }
+        } else if (command.equals("/f claim")) {
+            if (isWithinXZRange(loc)) {
+                player.sendMessage("§8» §bFaction §8« §cNo don't claim here, people can rtp on your base !");
                 event.setCancelled(true);
             }
         }
