@@ -41,6 +41,12 @@ public class CommandEvent implements Listener {
                 player.sendMessage("§8» §4Worlds §8« §7You are already going to be teleported !");
             }
         }
+        if (command.contains("spawn")) {
+            if (waitingPlayers.contains(player)) {
+                event.setCancelled(true);
+                player.sendMessage("§8» §4Worlds §8« §7You are already going to be teleported !");
+            }
+        }
         if (command.equals("/warzone") || command.equals("/wz")) {
             if (level < 3) {
                 event.setCancelled(true);
