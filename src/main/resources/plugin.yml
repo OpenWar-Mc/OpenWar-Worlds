@@ -14,3 +14,6 @@ commands:
     description: "Teleport player to faction, world, or nether"
     usage: "/w faction|world|nether"
     aliases: [world]
+  spawn:
+    description: "Teleport to spawn "
+    usage: "/spawn"
