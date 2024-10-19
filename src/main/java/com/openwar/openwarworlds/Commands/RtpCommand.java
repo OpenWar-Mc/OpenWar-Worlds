@@ -117,6 +117,7 @@ public class RtpCommand implements CommandExecutor {
     }
 
     private boolean isWater(Location loc) {
-        return loc.getBlock().getType() == Material.WATER || loc.getBlock().getType() == Material.STATIONARY_WATER;
+        Location below = loc.clone().add(0, -1, 0);
+        return below.getBlock().getType() == Material.WATER || below.getBlock().getType() == Material.STATIONARY_WATER;
     }
 }
