@@ -8,6 +8,7 @@ import com.openwar.openwarworlds.Commands.*;
 import com.openwar.openwarworlds.GUI.GUIbuild;
 import com.openwar.openwarworlds.Handler.ChangeWorldEvent;
 import com.openwar.openwarworlds.Handler.GUIHandler;
+import com.openwar.openwarworlds.Handler.HideName;
 import com.openwar.openwarworlds.utils.LoaderSaver;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -50,6 +51,7 @@ public final class Main extends JavaPlugin {
         getCommand("rtp").setExecutor(new RtpCommand(this));
         getCommand("w").setTabCompleter(new TabComplete());
         getCommand("rtp").setTabCompleter(new TabComplete());
+        getServer().getPluginManager().registerEvents(new HideName(this), this);
 
 
     }
