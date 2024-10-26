@@ -31,10 +31,10 @@ public class HideName implements Listener {
     }
 
     private void checkPlayerWorld(Player player) {
-        Team team = scoreboard.getTeam("hidden_" + player.getName());
+        Team team = scoreboard.getTeam(player.getName());
 
         if (team == null) {
-            team = scoreboard.registerNewTeam("hidden_" + player.getName());
+            team = scoreboard.registerNewTeam(player.getName());
             team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
         }
 
