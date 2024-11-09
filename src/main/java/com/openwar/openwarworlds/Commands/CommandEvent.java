@@ -35,7 +35,7 @@ public class CommandEvent implements Listener {
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();
         String command = event.getMessage().toLowerCase();
-        PlayerLevel playerLevel = pl.loadPlayerData(player.getUniqueId(), null);
+        PlayerLevel playerLevel = pl.loadPlayerData(player.getUniqueId());
         int level = playerLevel.getLevel();
         Location loc = player.getLocation();
         if (!player.getWorld().getName().equals("faction")) {
