@@ -1,6 +1,7 @@
 package com.openwar.openwarworlds.Handler;
 
 import com.openwar.openwarlevels.level.PlayerDataManager;
+import com.openwar.openwarlevels.level.PlayerLevel;
 import com.openwar.openwarworlds.GUI.GUIbuild;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -13,12 +14,13 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class GUIHandler implements Listener {
-
+    PlayerDataManager pl;
     GUIbuild gui;
     JavaPlugin main;
-    public GUIHandler(JavaPlugin main, GUIbuild gui) {
+    public GUIHandler(JavaPlugin main, GUIbuild gui, PlayerDataManager pl) {
         this.main = main;
         this.gui = gui;
+        this.pl = pl;
     }
 
     @EventHandler
@@ -27,6 +29,8 @@ public class GUIHandler implements Listener {
         if (view.getTitle().contains("     §k§l!!!§r §3§lWorld Select§8 §r§8§k§l!!!§r")) {
             event.setCancelled(true);
             Player player = (Player) event.getWhoClicked();
+            PlayerLevel playerLevel = pl.loadPlayerData(player.getUniqueId());
+            int level = playerLevel.getLevel();
             int clickedSlot = event.getSlot();
             if (clickedSlot == 11) {
                 gui.openFac(player);
@@ -43,9 +47,13 @@ public class GUIHandler implements Listener {
                 player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
             }
             if (clickedSlot == 15) {
-                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0f, 1.0f);
-                player.performCommand("warzone");
-                player.closeInventory();
+                if (level >=3) {
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0f, 1.0f);
+                    player.performCommand("warzone");
+                    player.closeInventory();
+                } else {
+                    player.sendMessage("§8» §4Warzone §8« §7You need to be at least level: §c3 §7!");
+                }
             }
 
             Bukkit.getServer().getScheduler().runTaskLater(main, player::updateInventory, 1L);
