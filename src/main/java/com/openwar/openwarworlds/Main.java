@@ -44,7 +44,7 @@ public final class Main extends JavaPlugin {
         ls = new LoaderSaver(this);
         ls.loadData();
         getServer().getPluginManager().registerEvents(new ChangeWorldEvent(ls), this);
-        getServer().getPluginManager().registerEvents(new GUIHandler(this, gui), this);
+        getServer().getPluginManager().registerEvents(new GUIHandler(this, gui, pl), this);
         getCommand("w").setExecutor(new WorldCommand(pl, gui, ls, this));
         getCommand("spawn").setExecutor(new SpawnCommand(this));
         getServer().getPluginManager().registerEvents(new CommandEvent(pl, this), this);
