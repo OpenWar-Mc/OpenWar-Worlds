@@ -3,7 +3,6 @@ version: '${project.version}'
 main: com.openwar.openwarworlds.Main
 depend:
   - OpenWar-Core
-  - Multiverse-Core
 commands:
   rtp:
     description: "Teleport player randomly to faction or world"
