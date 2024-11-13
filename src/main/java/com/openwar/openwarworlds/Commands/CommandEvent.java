@@ -62,7 +62,7 @@ public class CommandEvent implements Listener {
             }
         }
         if (command.equals("/warzone") || command.equals("/wz")) {
-            if (level < 3) {
+            if (level >= 3) {
                 event.setCancelled(true);
                 player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
                 player.sendMessage("§8» §4Warzone §8« §7You need to be at least level: §c3 §7!");
