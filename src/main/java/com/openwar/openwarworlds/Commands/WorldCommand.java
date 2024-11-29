@@ -8,6 +8,7 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,13 +45,25 @@ public class WorldCommand implements CommandExecutor {
             }
             switch (strings[0].toLowerCase()) {
                 case "faction":
-                    teleportPlayer("faction", player);
+                    if (!player.getWorld().getName().equals("faction")) {
+                        teleportPlayer("faction", player);
+                    } else {
+                        player.sendMessage("§c» §7You are already on this world.");
+                    }
                     break;
                 case "world":
-                    teleportPlayer("world", player);
+                    if (!player.getWorld().getName().equals("world")) {
+                        teleportPlayer("world", player);
+                    } else {
+                        player.sendMessage("§c» §7You are already on this world.");
+                    }
                     break;
                 case "nether":
-                    teleportPlayer("nether", player);
+                    if (!player.getWorld().getName().equals("nether")) {
+                        teleportPlayer("nether", player);
+                    } else {
+                        player.sendMessage("§c» §7You are already on this world.");
+                    }
                     break;
                 default:
                     player.sendMessage("§7Usage: §f/w faction|world|nether");
@@ -81,13 +94,19 @@ public class WorldCommand implements CommandExecutor {
                             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp "+player.getName()+" "+ world);
                             switch (world) {
                                 case "world":
-                                    if (ls.getWorldLocation(player) != null) {
+                                    Location spawn = Bukkit.getWorld("world").getSpawnLocation();
+                                    if (ls.getWorldLocation(player) != spawn) {
                                         player.teleport(ls.getWorldLocation(player));
+                                    } else {
+                                        player.sendMessage("§c» §7You don't have any saved location, do §f/rtp world");
                                     }
                                     break;
                                 case "faction":
-                                    if (ls.getFactionLocation(player) != null) {
+                                    Location spawn1 = Bukkit.getWorld("world").getSpawnLocation();
+                                    if (ls.getFactionLocation(player) != spawn1) {
                                         player.teleport(ls.getFactionLocation(player));
+                                    } else {
+                                        player.sendMessage("§c» §7You don't have any saved location, do §f/rtp faction");
                                     }
                                     break;
                             }
