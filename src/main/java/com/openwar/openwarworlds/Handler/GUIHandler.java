@@ -1,6 +1,6 @@
 package com.openwar.openwarworlds.Handler;
 
-import com.openwar.openwarlevels.level.PlayerDataManager;
+import com.openwar.openwarcore.Utils.LevelSaveAndLoadBDD;
 import com.openwar.openwarlevels.level.PlayerLevel;
 import com.openwar.openwarworlds.GUI.GUIbuild;
 import org.bukkit.Bukkit;
@@ -9,15 +9,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class GUIHandler implements Listener {
-    PlayerDataManager pl;
+    LevelSaveAndLoadBDD pl;
     GUIbuild gui;
     JavaPlugin main;
-    public GUIHandler(JavaPlugin main, GUIbuild gui, PlayerDataManager pl) {
+    public GUIHandler(JavaPlugin main, GUIbuild gui,  LevelSaveAndLoadBDD pl) {
         this.main = main;
         this.gui = gui;
         this.pl = pl;
