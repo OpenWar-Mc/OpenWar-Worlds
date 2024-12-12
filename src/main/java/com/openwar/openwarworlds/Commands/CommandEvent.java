@@ -1,6 +1,6 @@
 package com.openwar.openwarworlds.Commands;
 
-import com.openwar.openwarlevels.level.PlayerDataManager;
+import com.openwar.openwarcore.Utils.LevelSaveAndLoadBDD;
 import com.openwar.openwarlevels.level.PlayerLevel;
 import com.openwar.openwarworlds.Main;
 import org.bukkit.Location;
@@ -15,10 +15,10 @@ import java.util.List;
 
 public class CommandEvent implements Listener {
 
-    PlayerDataManager pl;
+    LevelSaveAndLoadBDD pl;
     List waitingPlayers;
     Main main;
-    public CommandEvent(PlayerDataManager pl, Main main) {
+    public CommandEvent(LevelSaveAndLoadBDD pl, Main main) {
         this.pl = pl;
         waitingPlayers = main.getWaitingPlayers();
     }
