@@ -1,6 +1,6 @@
 package com.openwar.openwarworlds.Commands;
 
-import com.openwar.openwarlevels.level.PlayerDataManager;
+import com.openwar.openwarcore.Utils.LevelSaveAndLoadBDD;
 import com.openwar.openwarworlds.GUI.GUIbuild;
 import com.openwar.openwarworlds.Main;
 import com.openwar.openwarworlds.utils.LoaderSaver;
@@ -8,7 +8,6 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,18 +15,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WorldCommand implements CommandExecutor {
 
-    PlayerDataManager pl;
+    LevelSaveAndLoadBDD pl;
     GUIbuild gui;
     LoaderSaver ls;
     JavaPlugin main;
     List waitingPlayers;
 
-    public WorldCommand(PlayerDataManager pl, GUIbuild gui, LoaderSaver ls, Main main) {
+    public WorldCommand(LevelSaveAndLoadBDD pl, GUIbuild gui, LoaderSaver ls, Main main) {
         this.ls = ls;
         this.pl= pl;
         this.gui = gui;
