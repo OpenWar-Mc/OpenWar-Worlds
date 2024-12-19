@@ -16,3 +16,5 @@ commands:
   spawn:
     description: "Teleport to spawn "
     usage: "/spawn"
+  extract:
+    usage: "lache ça"

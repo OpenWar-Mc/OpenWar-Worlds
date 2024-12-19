@@ -12,8 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public final class Main extends JavaPlugin {
 
@@ -22,6 +21,7 @@ public final class Main extends JavaPlugin {
     GUIbuild gui;
     LoaderSaver ls;
     public List<Player> waitingPlayers = new ArrayList<>();
+    public Map<UUID, Map<String, Long>> cooldownWarzone = new HashMap<>();
 
     private boolean setupDepend() {
         RegisteredServiceProvider< LevelSaveAndLoadBDD> levelProvider = getServer().getServicesManager().getRegistration( LevelSaveAndLoadBDD.class);
@@ -44,15 +44,17 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GUIHandler(this, gui, pl), this);
         getCommand("w").setExecutor(new WorldCommand(pl, gui, ls, this));
         getCommand("spawn").setExecutor(new SpawnCommand(this));
-        getServer().getPluginManager().registerEvents(new CommandEvent(pl, this), this);
+        getServer().getPluginManager().registerEvents(new CommandEvent(this, pl, this), this);
         getCommand("rtp").setExecutor(new RtpCommand(this));
         getCommand("w").setTabCompleter(new TabComplete());
         getCommand("rtp").setTabCompleter(new TabComplete());
         getServer().getPluginManager().registerEvents(new HideName(this), this);
-
+        getCommand("extract").setExecutor(new ExtractWarzoneCommand(this));
 
     }
     public List getWaitingPlayers() {return waitingPlayers;}
+
+    public Map<UUID,Map<String, Long>> getCooldownWarzone() {return cooldownWarzone;}
 
     @Override
     public void onDisable() {
