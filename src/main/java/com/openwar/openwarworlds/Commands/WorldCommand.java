@@ -79,7 +79,7 @@ public class WorldCommand implements CommandExecutor {
                 Math.ceil(ls.getFactionLocation(player).getX()),
                 Math.ceil(ls.getFactionLocation(player).getY()),
                 Math.ceil(ls.getFactionLocation(player).getZ()));
-        if (!lastLoc.equals(spawn1)) {
+        if (lastLoc.equals(spawn1)) {
             player.sendMessage("§c» §7You don't have any saved location, do §f/rtp <world>");
             return;
         }
