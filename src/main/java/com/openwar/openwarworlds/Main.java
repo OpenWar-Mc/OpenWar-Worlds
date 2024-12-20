@@ -1,13 +1,13 @@
 package com.openwar.openwarworlds;
 
 import com.openwar.openwarcore.Utils.LevelSaveAndLoadBDD;
+import com.openwar.openwarcore.Utils.LoaderSaver;
 import com.openwar.openwarfaction.factions.FactionManager;
 import com.openwar.openwarworlds.Commands.*;
 import com.openwar.openwarworlds.GUI.GUIbuild;
 import com.openwar.openwarworlds.Handler.ChangeWorldEvent;
 import com.openwar.openwarworlds.Handler.GUIHandler;
 import com.openwar.openwarworlds.Handler.HideName;
-import com.openwar.openwarworlds.utils.LoaderSaver;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,12 +24,15 @@ public final class Main extends JavaPlugin {
     public Map<UUID, Map<String, Long>> cooldownWarzone = new HashMap<>();
 
     private boolean setupDepend() {
-        RegisteredServiceProvider< LevelSaveAndLoadBDD> levelProvider = getServer().getServicesManager().getRegistration( LevelSaveAndLoadBDD.class);
+        RegisteredServiceProvider<LevelSaveAndLoadBDD> levelProvider = getServer().getServicesManager().getRegistration(LevelSaveAndLoadBDD.class);
         RegisteredServiceProvider<FactionManager> factionDataProvider = getServer().getServicesManager().getRegistration(FactionManager.class);
-        if (levelProvider == null || factionDataProvider == null) {
+        RegisteredServiceProvider<LoaderSaver> loaderSaverProvider = getServer().getServicesManager().getRegistration(LoaderSaver.class);
+
+        if (levelProvider == null || factionDataProvider == null || loaderSaverProvider == null) {
             System.out.println("ERROR !!!!!!!!!!!!!!!!!!!!");
             return false;
         }
+        ls = loaderSaverProvider.getProvider();
         pl = levelProvider.getProvider();
         fm = factionDataProvider.getProvider();
         return true;
@@ -38,8 +41,6 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         if (!setupDepend()) { return;}
         gui = new GUIbuild();
-        ls = new LoaderSaver(this);
-        ls.loadData();
         getServer().getPluginManager().registerEvents(new ChangeWorldEvent(ls), this);
         getServer().getPluginManager().registerEvents(new GUIHandler(this, gui, pl), this);
         getCommand("w").setExecutor(new WorldCommand(pl, gui, ls, this));
