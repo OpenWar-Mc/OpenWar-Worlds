@@ -1,9 +1,9 @@
 package com.openwar.openwarworlds.Commands;
 
 import com.openwar.openwarcore.Utils.LevelSaveAndLoadBDD;
+import com.openwar.openwarcore.Utils.LoaderSaver;
 import com.openwar.openwarworlds.GUI.GUIbuild;
 import com.openwar.openwarworlds.Main;
-import com.openwar.openwarworlds.utils.LoaderSaver;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -74,6 +74,15 @@ public class WorldCommand implements CommandExecutor {
 
 
     private void teleportPlayer(String world, Player player) {
+        Location spawn1 = Bukkit.getWorld(world).getSpawnLocation();
+        Location lastLoc = new Location(Bukkit.getWorld(world),
+                Math.ceil(ls.getFactionLocation(player).getX()),
+                Math.ceil(ls.getFactionLocation(player).getY()),
+                Math.ceil(ls.getFactionLocation(player).getZ()));
+        if (!lastLoc.equals(spawn1)) {
+            player.sendMessage("§c» §7You don't have any saved location, do §f/rtp <world>");
+            return;
+        }
         Location loc = player.getLocation();
         waitingPlayers.add(player);
         new BukkitRunnable() {
@@ -89,23 +98,13 @@ public class WorldCommand implements CommandExecutor {
                             countdown--;
                         } else {
                             waitingPlayers.remove(player);
-                            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp "+player.getName()+" "+ world);
+                            //Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp "+player.getName()+" "+ world);
                             switch (world) {
                                 case "world":
-                                    Location spawn = Bukkit.getWorld("world").getSpawnLocation();
-                                    if (ls.getWorldLocation(player) != spawn) {
-                                        player.teleport(ls.getWorldLocation(player));
-                                    } else {
-                                        player.sendMessage("§c» §7You don't have any saved location, do §f/rtp world");
-                                    }
+                                    player.teleport(ls.getWorldLocation(player));
                                     break;
                                 case "faction":
-                                    Location spawn1 = Bukkit.getWorld("world").getSpawnLocation();
-                                    if (ls.getFactionLocation(player) != spawn1) {
-                                        player.teleport(ls.getFactionLocation(player));
-                                    } else {
-                                        player.sendMessage("§c» §7You don't have any saved location, do §f/rtp faction");
-                                    }
+                                    player.teleport(ls.getFactionLocation(player));
                                     break;
                             }
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("\u00A78» \u00A7fTeleported to §a" + world+" §8«"));
