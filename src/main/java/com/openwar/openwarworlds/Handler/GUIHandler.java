@@ -2,6 +2,7 @@ package com.openwar.openwarworlds.Handler;
 
 import com.openwar.openwarcore.Utils.LevelSaveAndLoadBDD;
 import com.openwar.openwarlevels.level.PlayerLevel;
+import com.openwar.openwarworlds.Commands.CommandEvent;
 import com.openwar.openwarworlds.GUI.GUIbuild;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -40,15 +41,21 @@ public class GUIHandler implements Listener {
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0f, 1.0f);
             }
             if (clickedSlot == 14) {
-                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0f, 1.0f);
-                player.performCommand("w nether");
-                player.closeInventory();
-                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                if (level < 10) {
+                    player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
+                    player.sendMessage("§8» §5Nether §8« §7You need to be at least level: §c10 §7!");
+                    player.closeInventory();
+                } else {
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0f, 1.0f);
+                    player.performCommand("w nether");
+                    player.closeInventory();
+                }
             }
             if (clickedSlot == 15) {
                 if (level >=3) {
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0f, 1.0f);
                     player.performCommand("warzone");
+                    System.out.println("Execute command WARZONE PTN DE MERDE");
                     player.closeInventory();
                 } else {
                     player.sendMessage("§8» §4Warzone §8« §7You need to be at least level: §c3 §7!");
