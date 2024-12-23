@@ -8,6 +8,7 @@ import com.openwar.openwarworlds.GUI.GUIbuild;
 import com.openwar.openwarworlds.Handler.ChangeWorldEvent;
 import com.openwar.openwarworlds.Handler.GUIHandler;
 import com.openwar.openwarworlds.Handler.HideName;
+import com.openwar.openwarworlds.Handler.MobHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,6 +44,7 @@ public final class Main extends JavaPlugin {
         gui = new GUIbuild();
         getServer().getPluginManager().registerEvents(new ChangeWorldEvent(ls), this);
         getServer().getPluginManager().registerEvents(new GUIHandler(this, gui, pl), this);
+        getServer().getPluginManager().registerEvents(new MobHandler(), this);
         getCommand("w").setExecutor(new WorldCommand(pl, gui, ls, this));
         getCommand("spawn").setExecutor(new SpawnCommand(this));
         getServer().getPluginManager().registerEvents(new CommandEvent(this, pl, this), this);
