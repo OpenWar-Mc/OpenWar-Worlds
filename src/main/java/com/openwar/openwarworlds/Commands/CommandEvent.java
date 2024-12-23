@@ -70,6 +70,7 @@ public class CommandEvent implements Listener {
         int level = playerLevel.getLevel();
         Location loc = player.getLocation();
         if (command.equals("/warzone") || command.equals("/wz")) {
+            System.out.println("Warzone command "+player.getName());
             if (player.getWorld().getName().equals("warzone")) {
                 event.setCancelled(true);
                 return;
@@ -115,16 +116,9 @@ public class CommandEvent implements Listener {
                 player.sendMessage("§8» §4Worlds §8« §7You are already going to be teleported !");
             }
         }
-        if (command.equals("/w nether")) {
-            if (level < 10) {
-                event.setCancelled(true);
-                player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
-                player.sendMessage("§8» §5Nether §8« §7You need to be at least level: §c10 §7!");
-            }
-        }
     }
 
-    private void teleportToWarzone(Player player) {
+    public void teleportToWarzone(Player player) {
         Location loc = player.getLocation();
         Random rand = new Random();
         int spawn = rand.nextInt(8);
