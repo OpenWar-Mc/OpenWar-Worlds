@@ -106,6 +106,9 @@ public class WorldCommand implements CommandExecutor {
                                 case "faction":
                                     player.teleport(ls.getFactionLocation(player));
                                     break;
+                                case "nether":
+                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp "+player.getName()+" nether");
+                                    break;
                             }
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("\u00A78» \u00A7fTeleported to §a" + world+" §8«"));
                             this.cancel();
