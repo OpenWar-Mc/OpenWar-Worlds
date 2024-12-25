@@ -101,10 +101,26 @@ public class WorldCommand implements CommandExecutor {
                             //Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp "+player.getName()+" "+ world);
                             switch (world) {
                                 case "world":
-                                    player.teleport(ls.getWorldLocation(player));
+                                    Location worldLocation = ls.getWorldLocation(player);
+                                    if (worldLocation == null) {
+                                        Bukkit.getLogger().warning("ls.getWorldLocation(player): " + ls.getWorldLocation(player));
+                                        player.sendMessage("§c» §7The world location is not set.");
+                                        waitingPlayers.remove(player);
+                                        this.cancel();
+                                        return;
+                                    }
+                                    player.teleport(worldLocation);
                                     break;
                                 case "faction":
-                                    player.teleport(ls.getFactionLocation(player));
+                                    Location factionLocation = ls.getFactionLocation(player);
+                                    if (factionLocation == null) {
+                                        Bukkit.getLogger().warning("ls.getFactionLocation(player): " + ls.getFactionLocation(player));
+                                        player.sendMessage("§c» §7The faction location is not set.");
+                                        waitingPlayers.remove(player);
+                                        this.cancel();
+                                        return;
+                                    }
+                                    player.teleport(factionLocation);
                                     break;
                                 case "nether":
                                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp "+player.getName()+" nether");
