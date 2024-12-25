@@ -30,6 +30,7 @@ public class HideName implements Listener {
     public void onPlayerChangeWorld(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
         checkPlayerWorld(player);
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tablist reload");
     }
 
     private void checkPlayerWorld(Player player) {
