@@ -22,8 +22,8 @@ public class HideName implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        createOrResetPlayerTeam(player);
         checkPlayerWorld(player);
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tablist reload");
     }
 
     @EventHandler
@@ -33,25 +33,38 @@ public class HideName implements Listener {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tablist reload");
     }
 
-    private void checkPlayerWorld(Player player) {
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
         Team team = scoreboard.getTeam(player.getName());
-
-        if (team == null) {
-            team = scoreboard.registerNewTeam(player.getName());
-            team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
-        }
-
-        if (player.getWorld().getName().equalsIgnoreCase("warzone")) {
-            team.addEntry(player.getName());
-            System.out.println("JOUEUR "+player+ " A LE PSEUDO CACHAYYYY");
-        } else {
-            team.removeEntry(player.getName());
-            System.out.println("JOUEUR "+player+ " A LE PSEUDO VISIBLEEE");
+        if (team != null) {
+            team.unregister();
         }
     }
 
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tablist reload");
+    private void createOrResetPlayerTeam(Player player) {
+        Team team = scoreboard.getTeam(player.getName());
+        if (team == null) {
+            team = scoreboard.registerNewTeam(player.getName());
+        } else {
+            team.getEntries().forEach(team::removeEntry);
+        }
+        team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
+    }
+
+    private void checkPlayerWorld(Player player) {
+        Team team = scoreboard.getTeam(player.getName());
+        if (team == null) return;
+
+        if (player.getWorld().getName().equalsIgnoreCase("warzone")) {
+            if (!team.hasEntry(player.getName())) {
+                team.addEntry(player.getName());
+            }
+            team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
+            System.out.println("JOUEUR " + player.getName() + " A LE PSEUDO CACHÉ");
+        } else {
+            team.removeEntry(player.getName());
+            System.out.println("JOUEUR " + player.getName() + " A LE PSEUDO VISIBLE");
+        }
     }
 }
