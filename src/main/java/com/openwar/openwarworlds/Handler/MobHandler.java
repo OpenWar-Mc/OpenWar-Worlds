@@ -17,13 +17,17 @@ public class MobHandler implements Listener {
             EntityType.CREEPER,
             EntityType.SILVERFISH,
             EntityType.WITCH,
-            EntityType.ENDERMAN
+            EntityType.ENDERMAN,
+            EntityType.SPIDER
     );
 
     @EventHandler
     public void onSpawnMob(EntitySpawnEvent event) {
         Entity entity = event.getEntity();
-        if (entity.getWorld().getName().equals("world") && mobs.contains(entity.getType()))
-            event.setCancelled(true);
+        if (entity.getWorld().getName().equals("world")) {
+            if (mobs.contains(entity.getType())) {
+                event.setCancelled(true);
+            }
+        }
     }
 }
