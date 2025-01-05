@@ -1,6 +1,7 @@
 package com.openwar.openwarworlds.Handler;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,60 +12,62 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HideName implements Listener {
 
     private final Scoreboard scoreboard;
+    private final JavaPlugin plugin;
 
     public HideName(JavaPlugin plugin) {
+        this.plugin = plugin;
         this.scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        createOrResetPlayerTeam(player);
-        checkPlayerWorld(player);
+        teamManager();
     }
 
     @EventHandler
     public void onPlayerChangeWorld(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
-        checkPlayerWorld(player);
+        teamManager();
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tablist reload");
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        Team team = scoreboard.getTeam(player.getName());
-        if (team != null) {
-            team.unregister();
-        }
+        teamManager();
+
     }
 
-    private void createOrResetPlayerTeam(Player player) {
-        Team team = scoreboard.getTeam(player.getName());
-        if (team == null) {
-            team = scoreboard.registerNewTeam(player.getName());
-        } else {
-            team.getEntries().forEach(team::removeEntry);
-        }
-        team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
-    }
-
-    private void checkPlayerWorld(Player player) {
-        Team team = scoreboard.getTeam(player.getName());
-        if (team == null) return;
-
-        if (player.getWorld().getName().equalsIgnoreCase("warzone")) {
-            if (!team.hasEntry(player.getName())) {
-                team.addEntry(player.getName());
+    private void teamManager() {
+            List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+            for (Player player : players) {
+                if (player.getWorld().getName().equals("warzone")) {
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard teams add "+player.getName());
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard teams option "+player.getName()+" nametagVisibility never");
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard teams join "+player.getName()+" "+player.getName());
+                    }, 10L);
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard teams add "+player.getName());
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard teams option "+player.getName()+" nametagVisibility never");
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard teams join "+player.getName()+" "+player.getName());
+                    }, 20L);
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard teams add "+player.getName());
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard teams option "+player.getName()+" nametagVisibility never");
+                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard teams join "+player.getName()+" "+player.getName());
+                    }, 40L);
+                } else {
+                    System.out.println("REMOVED PLAYER "+player.getName());
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "scoreboard teams remove "+player.getName());
+                }
             }
-            team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
-            System.out.println("JOUEUR " + player.getName() + " A LE PSEUDO CACHÉ");
-        } else {
-            team.removeEntry(player.getName());
-            System.out.println("JOUEUR " + player.getName() + " A LE PSEUDO VISIBLE");
-        }
     }
 }

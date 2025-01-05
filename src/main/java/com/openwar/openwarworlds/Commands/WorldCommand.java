@@ -110,6 +110,8 @@ public class WorldCommand implements CommandExecutor {
                                         return;
                                     }
                                     player.teleport(worldLocation);
+                                    ls.setWorldLocation(player, player.getLocation());
+                                    ls.saveData();
                                     break;
                                 case "faction":
                                     Location factionLocation = ls.getFactionLocation(player);

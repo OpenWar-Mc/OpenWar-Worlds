@@ -54,8 +54,6 @@ public class GUIHandler implements Listener {
             if (clickedSlot == 15) {
                 if (level >=3) {
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0f, 1.0f);
-                    player.performCommand("warzone");
-                    System.out.println("Execute command WARZONE PTN DE MERDE");
                     player.closeInventory();
                 } else {
                     player.sendMessage("§8» §4Warzone §8« §7You need to be at least level: §c3 §7!");
