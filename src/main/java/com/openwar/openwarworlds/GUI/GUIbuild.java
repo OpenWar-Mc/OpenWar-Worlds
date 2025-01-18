@@ -45,6 +45,7 @@ public class GUIbuild {
 
         player.openInventory(menu);
     }
+
     private ItemStack createGlassPane(String name, Material material, short color) {
         ItemStack pane = new ItemStack(material, 1, color);
         ItemMeta meta = pane.getItemMeta();

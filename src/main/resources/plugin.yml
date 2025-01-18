@@ -18,3 +18,5 @@ commands:
     usage: "/spawn"
   extract:
     usage: "lache ça"
+  warzone:
+    aliases: [wz]

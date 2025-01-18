@@ -47,7 +47,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MobHandler(), this);
         getCommand("w").setExecutor(new WorldCommand(pl, gui, ls, this));
         getCommand("spawn").setExecutor(new SpawnCommand(this));
-        getServer().getPluginManager().registerEvents(new CommandEvent(this, pl, this), this);
+        getCommand("warzone").setExecutor(new WarzoneCommand(this, pl, this));
         getCommand("rtp").setExecutor(new RtpCommand(this));
         getCommand("w").setTabCompleter(new TabComplete());
         getCommand("rtp").setTabCompleter(new TabComplete());

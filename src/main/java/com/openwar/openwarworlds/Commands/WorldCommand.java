@@ -104,7 +104,7 @@ public class WorldCommand implements CommandExecutor {
                                     Location worldLocation = ls.getWorldLocation(player);
                                     if (worldLocation == null) {
                                         Bukkit.getLogger().warning("ls.getWorldLocation(player): " + ls.getWorldLocation(player));
-                                        player.sendMessage("§c» §7The world location is not set.");
+                                        player.sendMessage("§c» §7The World location is not set.");
                                         waitingPlayers.remove(player);
                                         this.cancel();
                                         return;
@@ -117,7 +117,7 @@ public class WorldCommand implements CommandExecutor {
                                     Location factionLocation = ls.getFactionLocation(player);
                                     if (factionLocation == null) {
                                         Bukkit.getLogger().warning("ls.getFactionLocation(player): " + ls.getFactionLocation(player));
-                                        player.sendMessage("§c» §7The faction location is not set.");
+                                        player.sendMessage("§c» §7The Faction location is not set.");
                                         waitingPlayers.remove(player);
                                         this.cancel();
                                         return;
@@ -125,7 +125,18 @@ public class WorldCommand implements CommandExecutor {
                                     player.teleport(factionLocation);
                                     break;
                                 case "nether":
-                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp "+player.getName()+" nether");
+                                    Location netherLocation = ls.getNetherLocation(player);
+                                    if (netherLocation == null) {
+                                        Bukkit.getLogger().warning("ls.getNetherLocation(player): " + ls.getNetherLocation(player));
+                                        player.sendMessage("§c» §7The Nether location is not set. Teleporting to the spawn");
+                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "mv tp " + player.getName() + " nether");
+                                        waitingPlayers.remove(player);
+                                        this.cancel();
+                                        return;
+                                    }
+                                    player.teleport(netherLocation);
+                                    ls.setNetherLocation(player, player.getLocation());
+                                    ls.saveData();
                                     break;
                             }
                             player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent("\u00A78» \u00A7fTeleported to §a" + world+" §8«"));

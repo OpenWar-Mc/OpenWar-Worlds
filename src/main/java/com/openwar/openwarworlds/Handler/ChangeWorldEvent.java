@@ -24,6 +24,9 @@ public class ChangeWorldEvent implements Listener {
             case "world":
                 ls.setWorldLocation(player, loc);
                 break;
+            case "nether":
+                ls.setNetherLocation(player, loc);
+                break;
         }
     }
 }
