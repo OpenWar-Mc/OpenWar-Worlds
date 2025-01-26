@@ -1,5 +1,6 @@
 package com.openwar.openwarworlds.Commands;
 
+import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -121,7 +122,7 @@ public class WarzoneCommand implements CommandExecutor {
                     return;
                 }
                 if (countdown > 0) {
-                    player.spigot().sendMessage(new TextComponent("§8» §4Warzone §8« §7Teleporting in §c" + countdown + " §7seconds..."));
+                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent("§8» §4Warzone §8« §7Teleporting in §c" + countdown + " §7seconds..."));
                     countdown--;
                 } else {
                     waitingPlayers.remove(player);
