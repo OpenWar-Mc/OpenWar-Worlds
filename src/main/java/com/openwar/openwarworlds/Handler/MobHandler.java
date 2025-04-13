@@ -20,7 +20,8 @@ public class MobHandler implements Listener {
             EntityType.ENDERMAN,
             EntityType.SPIDER,
             EntityType.ZOMBIE_VILLAGER,
-            EntityType.ENDERMITE
+            EntityType.ENDERMITE,
+            EntityType.SLIME
     );
 
     @EventHandler

@@ -139,7 +139,6 @@ public class WarzoneCommand implements CommandExecutor {
         long seconds = millis / 1000;
         long minutes = seconds / 60;
         long hours = minutes / 60;
-
         seconds %= 60;
         minutes %= 60;
 
